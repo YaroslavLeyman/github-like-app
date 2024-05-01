@@ -17,7 +17,7 @@ const HomePage = () => {
   const getUserProfileAndRepos = useCallback(async (username = "YaroslavLeyman") => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/users/profile/${username}`);
+			const res = await fetch(`/api/users/profile/${username}`);
 			const { repos, userProfile } = await res.json();
 
 			repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
@@ -26,11 +26,11 @@ const HomePage = () => {
 			setUserProfile(userProfile);
 
 			return { userProfile, repos };
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
-    }
+		} catch (error) {
+			toast.error(error.message);
+		} finally {
+			setLoading(false);
+		}
   }, []);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const HomePage = () => {
 		setSortType("recent");
 	};
 
-  const onSort = (sortType) => {
+	const onSort = (sortType) => {
 		if (sortType === "recent") {
 			repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); //descending, recent first
 		} else if (sortType === "stars") {
@@ -65,17 +65,17 @@ const HomePage = () => {
 	};
 
   return (
-    <div className="m-4">
-      <Search onSearch={onSearch} />
-      {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
-      <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
-        {userProfile && !loading && <ProfileInfo userProfile={userProfile} />}
+		<div className='m-4'>
+			<Search onSearch={onSearch} />
+			{repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
+			<div className='flex gap-4 flex-col lg:flex-row justify-center items-start'>
+				{userProfile && !loading && <ProfileInfo userProfile={userProfile} />}
 
-        {!loading && <Repos repos={repos} />}
-        {loading && <Spinner />}
-      </div>
-    </div>
-  );
+				{!loading && <Repos repos={repos} />}
+				{loading && <Spinner />}
+			</div>
+		</div>
+	);
 };
 
 export default HomePage;

@@ -10,21 +10,20 @@ const ExplorePage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
 
   const exploreRepos = async (language) => {
-		setLoading(true);
-		setRepos([]);
-		try {
-			const res = await fetch("http://localhost:5000/api/explore/repos/" + language);
-			const { repos } = await res.json();
-			setRepos(repos);
+    setLoading(true);
+    setRepos([]);
+    try {
+      const res = await fetch("/api/explore/repos/" + language);
+      const { repos } = await res.json();
+      setRepos(repos);
 
-			setSelectedLanguage(language);
-		} catch (error) {
-			toast.error(error.message);
-		} finally {
-			setLoading(false);
-		}
-	};
-
+      setSelectedLanguage(language);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="px-4">
       <div className="bg-glass max-w-2xl mx-auto rounded-md p-4">
